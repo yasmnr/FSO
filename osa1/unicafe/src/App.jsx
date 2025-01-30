@@ -7,15 +7,15 @@ const Statistics = (props) => {
     }
     return (
         <table>
-        <div>
+            <tbody>
             <StatisticLine text="Hyvä:" value ={props.good} />
             <StatisticLine text="Neutraali:" value ={props.neutral} />
             <StatisticLine text="Huono:" value ={props.bad} />
             <StatisticLine text="Yhteensä:" value ={total} />
             <StatisticLine text="Keskiarvo:" value ={props.good-props.bad/(props.good+props.neutral+props.bad)} />
             <StatisticLine text="Positiivisia:" value ={(props.good/(props.good+props.neutral+props.bad)*100)} />
-        </div>
-            </table>
+            </tbody>
+        </table>
     )
 }
 
