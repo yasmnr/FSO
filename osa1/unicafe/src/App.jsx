@@ -17,6 +17,8 @@ const App = () => {
             <p>Neutraali: {neutral}</p>
             <p>Huono: {bad}</p>
             <p>Yhteensä: {good+neutral+bad}</p>
+            <p>Keskiarvo: {good-bad/(good+neutral+bad)}</p>
+            <p>Positiivisia: {good/(good+neutral+bad)}</p>
         </div>
     )
 }
