@@ -27,13 +27,22 @@ const App = () => {
 
     }
 
+    const mostVotes = Math.max(...votes)
+    const mostVoted = votes.indexOf(mostVotes)
+
     return (
         <div>
+            <h1>Anekdoottikone</h1>
             <p> {anecdotes[selected]}</p>
             <p>Tällä anekdootilla on {votes[selected]} ääntä.</p>
             <button onClick={randomAnecdote}>Seuraava anekdootti</button>
             <button onClick={voteAnecdote}>Äänestä tästä</button>
-
+            <h1>Eniten äänestetty</h1>
+            {mostVotes == 0 ? (<p>Ei annettuja ääniä</p>):
+                (<div>
+                <p>{anecdotes[mostVoted]}</p>
+                    <p>Tällä anekdootilla on {mostVotes} ääntä.</p>
+            </div>) }
         </div>
     )
 }
