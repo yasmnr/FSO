@@ -1,5 +1,39 @@
 import { useState } from 'react'
 
+const ContactForm = (props) => {
+    return (
+        <form onSubmit={props.addContact}>
+            <div>
+                name: <input value={props.newName} onChange={props.handleNameChange} />
+            </div>
+            <div>number: <input value={props.newNumber} onChange={props.handleNumberChange} />
+                <br></br>
+                <button type="submit">add</button>
+            </div>
+        </form>
+    )
+}
+
+const ContactList = (props) =>{
+    return (
+        <ul>
+            {props.persons.map(person => (
+                <li key={person.name}>{person.name} {person.number}</li>
+            ))}
+        </ul>
+    )
+}
+
+const SearchBar = (props) => {
+    return (
+        <form>
+            <div>
+                filter shown with <input value={props.searchTerm} onChange={props.handleSearchChange} />
+            </div>
+        </form>
+    )
+}
+
 const App = () => {
     const [persons, setPersons] = useState([
         { name: 'Squid Game', number: '86504006' },
@@ -26,7 +60,6 @@ const App = () => {
     const handleNameChange = (event) => {
         setNewName(event.target.value)
     }
-
     const handleNumberChange = (event) => {
         setNewNumber(event.target.value)
     }
@@ -38,27 +71,11 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <form>
-                <div>
-                    filter shown with <input value={searchTerm} onChange={handleSearchChange} />
-                </div>
-            </form>
+            <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
             <h2>add a new</h2>
-            <form onSubmit={addContact}>
-                <div>
-                    name: <input value={newName} onChange={handleNameChange} />
-                </div>
-                <div>number: <input value={newNumber} onChange={handleNumberChange} />
-                    <br></br>
-                    <button type="submit">add</button>
-                </div>
-            </form>
+            <ContactForm addContact={addContact} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
             <h2>Numbers</h2>
-            <ul>
-                {searchedPersons.map(person => (
-                    <li key={person.name}>{person.name} {person.number}</li>
-                ))}
-            </ul>
+            <ContactList persons={searchedPersons}/>
         </div>
     )
 
