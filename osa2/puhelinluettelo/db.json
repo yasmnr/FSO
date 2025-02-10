@@ -1,5 +1,5 @@
 {
-  "persons":[
+  "persons": [
     {
       "name": "Squid Game",
       "number": "86504006",
@@ -24,6 +24,21 @@
       "name": "Morgan Freeman",
       "number": "776-2323",
       "id": "5"
+    },
+    {
+      "id": "c12f",
+      "name": "Aku Ankka",
+      "number": "123123"
+    },
+    {
+      "id": "2d94",
+      "name": "Rantalentis",
+      "number": "17107"
+    },
+    {
+      "id": "8d5a",
+      "name": "Kela Opintotuki",
+      "number": "020692209"
     }
   ]
 }
