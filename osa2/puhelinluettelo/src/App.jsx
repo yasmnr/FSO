@@ -38,13 +38,13 @@ const SearchBar = (props) => {
     )
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ message, type }) => {
     if (message === null) {
         return null
     }
 
     return (
-        <div className="announcement">
+        <div className={`announcement ${type}`}>
             {message}
         </div>
     )
@@ -56,6 +56,7 @@ const App = () => {
     const [newNumber, setNewNumber] = useState('')
     const [searchTerm, setSearchTerm] = useState('')
     const [announcement, setAnnouncement] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
 
 
 
@@ -87,6 +88,13 @@ const App = () => {
                         setTimeout(() => {
                             setAnnouncement(null)
                         }, 5000)
+                    })
+                    .catch(() => {
+                        setErrorMessage(`Information of ${newName} has already been removed from the server`)
+                        setTimeout(() => {
+                            setErrorMessage(null)
+                        }, 5000)
+                        setPersons(persons.filter(p => p.id !== existingPerson.id))
                     })
             }
         } else {
@@ -136,7 +144,8 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <Notification message={announcement} />
+            <Notification message={announcement} type="success" />
+            <Notification message={errorMessage} type="error" />
             <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
             <h2>add a new</h2>
             <ContactForm addContact={addContact} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
