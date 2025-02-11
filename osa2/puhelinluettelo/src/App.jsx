@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
+import './index.css'
 
 const ContactForm = (props) => {
     return (
@@ -37,11 +38,26 @@ const SearchBar = (props) => {
     )
 }
 
+const Notification = ({ message }) => {
+    if (message === null) {
+        return null
+    }
+
+    return (
+        <div className="announcement">
+            {message}
+        </div>
+    )
+}
+
 const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [searchTerm, setSearchTerm] = useState('')
+    const [announcement, setAnnouncement] = useState(null)
+
+
 
     useEffect(()=>{
         personService
@@ -65,6 +81,12 @@ const App = () => {
                         ))
                         setNewName('')
                         setNewNumber('')
+                        setAnnouncement(
+                            `Contact ${updatedPerson.name} updated`
+                        )
+                        setTimeout(() => {
+                            setAnnouncement(null)
+                        }, 5000)
                     })
             }
         } else {
@@ -75,14 +97,27 @@ const App = () => {
                     setPersons(persons.concat(returnedPerson))
                     setNewName('')
                     setNewNumber('')
+                    setAnnouncement(
+                        `Contact ${returnedPerson.name} added to phonebook`
+                    )
+                    setTimeout(() => {
+                        setAnnouncement(null)
+                    }, 5000)
                 })
         }
     }
 
     const removeContact = (id, name) => {
         if (window.confirm(`Delete ${name}?`)) {
+            setAnnouncement(
+                `Contact ${name} removed from phonebook`
+            )
+            setTimeout(() => {
+                setAnnouncement(null)
+            }, 5000)
             personService.remove(id).then(() => {
                 setPersons(persons.filter(person => person.id !== id))
+
             })
         }
     }
@@ -101,6 +136,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification message={announcement} />
             <SearchBar searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
             <h2>add a new</h2>
             <ContactForm addContact={addContact} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
