@@ -1,7 +1,30 @@
 import { useState, useEffect } from 'react'
 import countryList from './services/countries'
 
+
 const CountryInfo = ({country}) => {
+    const [weather, setWeather] = useState(null)
+    useEffect(() => {
+        const fetchWeather = async () => {
+            const api_key = import.meta.env.VITE_OPENWEATHER_API_KEY
+            const city = country.capital
+            if (city) {
+                try {
+                    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}&units=metric`)
+                    const data = await response.json()
+                    if (data.cod === 200) {
+                        setWeather(data)
+                    } else {
+                        setWeather(null)
+                    }
+                } catch (error) {
+                    setWeather(null)
+                }
+            }
+        }
+        fetchWeather()
+    }, [country])
+
     return(
     <div>
         <h2>{country.name.common}</h2>
@@ -14,6 +37,18 @@ const CountryInfo = ({country}) => {
             ))}
         </ul>
         <img src={country.flags.svg} alt={`Flag of ${country.name.common}`} width={200}/>
+        {weather && (
+            <>
+                <h3>Weather in {country.capital}:</h3>
+                <p>temperature: {weather.main.temp}°C</p>
+                <img
+                    src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                    alt={weather.weather[0].description}
+                    width={50}
+                />
+                <p>wind: {weather.wind.speed} m/s</p>
+            </>
+        )}
     </div>
     )
 }
